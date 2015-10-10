@@ -41,13 +41,13 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupGoogleServices();
-        loadData();
     }
 
     private void loadData() {
         Mosquito.getInstance().getBites(new Callback<Bites>() {
             @Override
             public void success(Bites bites, Response response) {
+                addHeatMap(bites);
             }
 
             @Override
@@ -117,20 +117,11 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         });
     }
 
-    private void addHeatMap() {
+    private void addHeatMap(Bites bites) {
         List<LatLng> list = new ArrayList<>();
-        Random random = new Random();
 
-        double latitude = lastLocation.getLatitude();
-        double longitude = lastLocation.getLongitude();
-        double limit = 10;
-
-        for (int i = 0; i < 50; i++) {
-            list.add(new LatLng(latitude + random.nextDouble(), longitude + random.nextDouble()));
-        }
-
-        for (int i = 0; i < 500; i++) {
-            list.add(new LatLng(latitude + random.nextDouble() / limit, longitude + random.nextDouble() / limit));
+        for(Bite bite : bites.bites) {
+            list.add(new LatLng(bite.latitude, bite.longitude));
         }
 
         //Gradient gradient = new Gradient(new int[]{Color.rgb(0, 255, 0), Color.rgb(255, 0, 0)}, new float[]{0f, 1f});
@@ -150,7 +141,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     private void onLocationReady() {
         centerMap();
-        addHeatMap();
+        loadData();
     }
 
     @Override

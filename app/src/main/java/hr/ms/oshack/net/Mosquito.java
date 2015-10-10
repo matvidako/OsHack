@@ -31,7 +31,7 @@ public class Mosquito {
     }
 
     public void getBites(Callback<Bites> callback) {
-        mosquitoService.getBites(100, callback);
+        mosquitoService.getBites(1000, callback);
     }
 
 }
