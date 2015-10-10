@@ -31,6 +31,8 @@ import hr.ms.oshack.R;
 import hr.ms.oshack.model.Bite;
 import hr.ms.oshack.model.Bites;
 import hr.ms.oshack.model.Cluster;
+import hr.ms.oshack.model.Trap;
+import hr.ms.oshack.model.Traps;
 import hr.ms.oshack.net.Mosquito;
 import hr.ms.oshack.storage.PrefsManager;
 import retrofit.Callback;
@@ -78,6 +80,17 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             @Override
             public void failure(RetrofitError error) {
 
+            }
+        });
+
+        Mosquito.getInstance().getTraps(new Callback<Traps>() {
+            @Override
+            public void success(final Traps traps, Response response) {
+                addTraps(traps);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
             }
         });
     }
@@ -177,21 +190,35 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         }
     }
 
+    private void addTraps(Traps traps) {
+        for (Trap trap : traps.traps) {
+            addCircleMarker(trap.latitude, trap.longitude,
+                    getResources().getColor(R.color.yellow),
+                    getResources().getColor(R.color.yellow_dark));
+        }
+    }
+
     private void addClusterMarker(Cluster cluster) {
+        addCircleMarker(cluster.latitude, cluster.longitude,
+                getResources().getColor(R.color.red_light),
+                getResources().getColor(R.color.red_dark));
+    }
+
+    private void addCircleMarker(double latitude, double longitude, int lightColor, int darkColor) {
         CircleOptions circleOptions = new CircleOptions()
-                .center(new LatLng(cluster.latitude, cluster.longitude))
+                .center(new LatLng(latitude, longitude))
                 .radius(20)
                 .strokeWidth(80)
-                .strokeColor(getResources().getColor(R.color.red_light))
+                .strokeColor(lightColor)
                 .zIndex(2);
         map.addCircle(circleOptions);
 
         circleOptions = new CircleOptions()
-                .center(new LatLng(cluster.latitude, cluster.longitude))
+                .center(new LatLng(latitude, longitude))
                 .radius(20)
                 .strokeWidth(40)
-                .fillColor(getResources().getColor(R.color.red_dark))
-                .strokeColor(getResources().getColor(R.color.red_dark))
+                .fillColor(darkColor)
+                .strokeColor(darkColor)
                 .zIndex(3);
         map.addCircle(circleOptions);
     }
