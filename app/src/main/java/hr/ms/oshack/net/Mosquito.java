@@ -5,6 +5,7 @@ import java.util.List;
 import hr.ms.oshack.model.Bite;
 import hr.ms.oshack.model.Bites;
 import hr.ms.oshack.model.Cluster;
+import hr.ms.oshack.model.Trap;
 import hr.ms.oshack.model.Traps;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -44,6 +45,10 @@ public class Mosquito {
 
     public void getTraps(Callback<Traps> callback) {
         mosquitoService.getTraps(1000, callback);
+    }
+
+    public void addTrap(Trap trap, Callback<Response> callback) {
+        mosquitoService.addTrap(trap, callback);
     }
 
 }

@@ -146,6 +146,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             @Override
             public void success(Response response, Response response2) {
                 Log.d("DISI", "" + response);
+                refreshMap();
             }
 
             @Override
@@ -153,6 +154,27 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                 Log.d("DISI", "" + error);
             }
         });
+    }
+
+    @OnClick(R.id.fabTrap)
+    public void addTrap() {
+        Mosquito.getInstance().addTrap(Trap.fromLocation(lastLocation), new Callback<Response>() {
+            @Override
+            public void success(Response response, Response response2) {
+                Log.d("DISI", "" + response);
+                refreshMap();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("DISI", "" + error);
+            }
+        });
+    }
+
+    private void refreshMap() {
+        map.clear();
+        loadData();
     }
 
     private void addHeatMap(Bites bites) {

@@ -5,6 +5,7 @@ import java.util.List;
 import hr.ms.oshack.model.Bite;
 import hr.ms.oshack.model.Bites;
 import hr.ms.oshack.model.Cluster;
+import hr.ms.oshack.model.Trap;
 import hr.ms.oshack.model.Traps;
 import retrofit.Callback;
 import retrofit.client.Response;
@@ -26,4 +27,7 @@ public interface MosquitoService {
 
     @GET("/traps")
     void getTraps(@Query("limit") int limit, Callback<Traps> callback);
+
+    @POST("/traps")
+    void addTrap(@Body Trap trap, Callback<Response> callback);
 }
