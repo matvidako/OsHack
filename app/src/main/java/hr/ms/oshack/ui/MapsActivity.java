@@ -133,12 +133,12 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         Mosquito.getInstance().reportBite(Bite.fromLocation(lastLocation), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
-                Log.d("DISI", ""+response);
+                Log.d("DISI", "" + response);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("DISI", ""+error);
+                Log.d("DISI", "" + error);
             }
         });
     }
