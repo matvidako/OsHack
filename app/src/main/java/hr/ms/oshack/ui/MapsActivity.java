@@ -167,11 +167,13 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                     .center(new LatLng(cluster.latitude, cluster.longitude))
                     .radius(cluster.radius)
                     .strokeWidth(0)
-                    .fillColor(getResources().getColor(R.color.red_region));
+                    .fillColor(getResources().getColor(R.color.red_region))
+                    .zIndex(1);
 
             map.addCircle(circleOptions);
 
             addClusterMarker(cluster);
+
         }
     }
 
@@ -180,14 +182,17 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                 .center(new LatLng(cluster.latitude, cluster.longitude))
                 .radius(20)
                 .strokeWidth(80)
-                .strokeColor(getResources().getColor(R.color.red_light));
+                .strokeColor(getResources().getColor(R.color.red_light))
+                .zIndex(2);
         map.addCircle(circleOptions);
 
         circleOptions = new CircleOptions()
                 .center(new LatLng(cluster.latitude, cluster.longitude))
                 .radius(20)
                 .strokeWidth(40)
-                .fillColor(getResources().getColor(R.color.red_dark));
+                .fillColor(getResources().getColor(R.color.red_dark))
+                .strokeColor(getResources().getColor(R.color.red_dark))
+                .zIndex(3);
         map.addCircle(circleOptions);
     }
 
