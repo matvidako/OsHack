@@ -3,8 +3,10 @@
 
     <string name="action_settings">Postavke</string>
     <string name="action_events">Događaji</string>
-    <string name="action_tutorials">Upute</string>
+    <string name="action_tutorials">O zamkama</string>
     <string name="action_map">Karta</string>
     <string name="get_started">Uključi se</string>
     <string name="learn_more">Saznaj više</string>
+    <string name="action_stats">Statistike</string>
+    <string name="action_toc">Uvjeti korištenja</string>
 </resources>

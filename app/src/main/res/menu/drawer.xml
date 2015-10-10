@@ -5,13 +5,21 @@
             android:id="@+id/action_map"
             android:title="@string/action_map" />
         <item
+            android:id="@+id/action_stats"
+            android:title="@string/action_stats" />
+        <item
             android:id="@+id/action_events"
             android:title="@string/action_events" />
         <item
-            android:id="@+id/action_tutorials"
-            android:title="@string/action_tutorials" />
-        <item
             android:id="@+id/action_settings"
             android:title="@string/action_settings" />
+
+        <item
+            android:id="@+id/action_tutorials"
+            android:title="@string/action_tutorials" />
+
+        <item
+            android:id="@+id/action_toc"
+            android:title="@string/action_toc" />
     </group>
 </menu>

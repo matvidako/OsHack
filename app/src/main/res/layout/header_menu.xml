@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:orientation="vertical">
+    android:layout_height="160dp">
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/osijek"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/user_avatar"
+        android:layout_marginLeft="@dimen/padding_standard"
+        android:layout_marginTop="48dp"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ivan Horvat"
+        android:layout_marginLeft="@dimen/padding_standard"
+        android:layout_marginBottom="@dimen/padding_standard"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
