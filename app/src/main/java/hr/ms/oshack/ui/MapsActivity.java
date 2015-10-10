@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
@@ -26,6 +27,7 @@ import butterknife.OnClick;
 import hr.ms.oshack.R;
 import hr.ms.oshack.model.Bite;
 import hr.ms.oshack.model.Bites;
+import hr.ms.oshack.model.Cluster;
 import hr.ms.oshack.net.Mosquito;
 import hr.ms.oshack.storage.PrefsManager;
 import retrofit.Callback;
@@ -55,8 +57,19 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     private void loadData() {
         Mosquito.getInstance().getBites(new Callback<Bites>() {
             @Override
-            public void success(Bites bites, Response response) {
-                addHeatMap(bites);
+            public void success(final Bites bites, Response response) {
+                Mosquito.getInstance().getClusters(new Callback<List<Cluster>>() {
+                    @Override
+                    public void success(List<Cluster> clusters, Response response) {
+                        addHeatMap(bites, clusters);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        System.out.println("fail");
+                    }
+                });
+
             }
 
             @Override
@@ -126,7 +139,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         });
     }
 
-    private void addHeatMap(Bites bites) {
+    private void addHeatMap(Bites bites, List<Cluster> clusters) {
         List<LatLng> list = new ArrayList<>();
 
         for(Bite bite : bites.bites) {
@@ -139,6 +152,11 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                         //.gradient(gradient)
                 .build();
         TileOverlay mOverlay = map.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+
+        for (Cluster cluster : clusters) {
+            map.addMarker(new MarkerOptions()
+                    .position(new LatLng(cluster.latitude, cluster.longitude)));
+        }
     }
 
     private void centerMap() {

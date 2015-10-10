@@ -1,7 +1,10 @@
 package hr.ms.oshack.net;
 
+import java.util.List;
+
 import hr.ms.oshack.model.Bite;
 import hr.ms.oshack.model.Bites;
+import hr.ms.oshack.model.Cluster;
 import retrofit.Callback;
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -16,4 +19,7 @@ public interface MosquitoService {
 
     @GET("/bites")
     void getBites(@Query("limit") int limit, Callback<Bites> callback);
+
+    @GET("/clusters")
+    void getClusters(Callback<List<Cluster>> callback);
 }
