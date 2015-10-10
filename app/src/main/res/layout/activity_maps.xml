@@ -9,18 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabTrap"
         style="@style/fab"
         android:layout_marginBottom="88dp"
-        android:src="@drawable/menu"
-        app:backgroundTint="@color/accent" />
+        android:src="@drawable/boca"
+        app:backgroundTint="@color/yellow" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabBite"
         style="@style/fab"
-        android:src="@drawable/menu"
-        app:backgroundTint="@color/primaryDark" />
+        android:src="@drawable/komarac"
+        app:backgroundTint="@color/red_light" />
 
 </FrameLayout>
