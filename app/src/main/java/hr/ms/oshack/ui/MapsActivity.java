@@ -1,7 +1,6 @@
 package hr.ms.oshack.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,8 +13,8 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -174,8 +173,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     private void addClusters(List<Cluster> clusters) {
         for (Cluster cluster : clusters) {
-//            map.addMarker(new MarkerOptions()
-//                    .position(new LatLng(cluster.latitude, cluster.longitude)));
+
             CircleOptions circleOptions = new CircleOptions()
                     .center(new LatLng(cluster.latitude, cluster.longitude))
                     .radius(cluster.radius)
@@ -192,35 +190,19 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     private void addTraps(Traps traps) {
         for (Trap trap : traps.traps) {
-            addCircleMarker(trap.latitude, trap.longitude,
-                    getResources().getColor(R.color.yellow),
-                    getResources().getColor(R.color.yellow_dark));
+            addCircleMarker(trap.latitude, trap.longitude, R.drawable.pin_zamka);
         }
     }
 
     private void addClusterMarker(Cluster cluster) {
-        addCircleMarker(cluster.latitude, cluster.longitude,
-                getResources().getColor(R.color.red_light),
-                getResources().getColor(R.color.red_dark));
+        addCircleMarker(cluster.latitude, cluster.longitude, R.drawable.pin_ubod);
     }
 
-    private void addCircleMarker(double latitude, double longitude, int lightColor, int darkColor) {
-        CircleOptions circleOptions = new CircleOptions()
-                .center(new LatLng(latitude, longitude))
-                .radius(20)
-                .strokeWidth(80)
-                .strokeColor(lightColor)
-                .zIndex(2);
-        map.addCircle(circleOptions);
-
-        circleOptions = new CircleOptions()
-                .center(new LatLng(latitude, longitude))
-                .radius(20)
-                .strokeWidth(40)
-                .fillColor(darkColor)
-                .strokeColor(darkColor)
-                .zIndex(3);
-        map.addCircle(circleOptions);
+    private void addCircleMarker(double latitude, double longitude, int iconId) {
+        map.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .icon(BitmapDescriptorFactory.fromResource(iconId))
+                .anchor(0.5f, 0.5f));
     }
 
     private void centerMap() {
