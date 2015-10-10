@@ -8,6 +8,7 @@
     <color name="green_dark">#224540</color>
     <color name="red_light">#EE538E</color>
     <color name="red_dark">#92405F</color>
+    <color name="red_region">#32EE538E</color>
     <color name="yellow">#FCC468</color>
     <color name="white">#FFFFFF</color>
     <color name="white40">#66FFFFFF</color>

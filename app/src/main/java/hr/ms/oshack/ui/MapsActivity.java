@@ -1,6 +1,7 @@
 package hr.ms.oshack.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
@@ -55,25 +58,26 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     }
 
     private void loadData() {
-        Mosquito.getInstance().getBites(new Callback<Bites>() {
+//        Mosquito.getInstance().getBites(new Callback<Bites>() {
+//            @Override
+//            public void success(final Bites bites, Response response) {
+//                addHeatMap(bites);
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//            }
+//        });
+
+        Mosquito.getInstance().getClusters(new Callback<List<Cluster>>() {
             @Override
-            public void success(final Bites bites, Response response) {
-                Mosquito.getInstance().getClusters(new Callback<List<Cluster>>() {
-                    @Override
-                    public void success(List<Cluster> clusters, Response response) {
-                        addHeatMap(bites, clusters);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        System.out.println("fail");
-                    }
-                });
-
+            public void success(List<Cluster> clusters, Response response) {
+                addClusters(clusters);
             }
 
             @Override
             public void failure(RetrofitError error) {
+
             }
         });
     }
@@ -139,7 +143,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         });
     }
 
-    private void addHeatMap(Bites bites, List<Cluster> clusters) {
+    private void addHeatMap(Bites bites) {
         List<LatLng> list = new ArrayList<>();
 
         for(Bite bite : bites.bites) {
@@ -153,15 +157,43 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                 .build();
         TileOverlay mOverlay = map.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
 
+    }
+
+    private void addClusters(List<Cluster> clusters) {
         for (Cluster cluster : clusters) {
-            map.addMarker(new MarkerOptions()
-                    .position(new LatLng(cluster.latitude, cluster.longitude)));
+//            map.addMarker(new MarkerOptions()
+//                    .position(new LatLng(cluster.latitude, cluster.longitude)));
+            CircleOptions circleOptions = new CircleOptions()
+                    .center(new LatLng(cluster.latitude, cluster.longitude))
+                    .radius(cluster.radius)
+                    .strokeWidth(0)
+                    .fillColor(getResources().getColor(R.color.red_region));
+
+            map.addCircle(circleOptions);
+
+            addClusterMarker(cluster);
         }
+    }
+
+    private void addClusterMarker(Cluster cluster) {
+        CircleOptions circleOptions = new CircleOptions()
+                .center(new LatLng(cluster.latitude, cluster.longitude))
+                .radius(20)
+                .strokeWidth(80)
+                .strokeColor(getResources().getColor(R.color.red_light));
+        map.addCircle(circleOptions);
+
+        circleOptions = new CircleOptions()
+                .center(new LatLng(cluster.latitude, cluster.longitude))
+                .radius(20)
+                .strokeWidth(40)
+                .fillColor(getResources().getColor(R.color.red_dark));
+        map.addCircle(circleOptions);
     }
 
     private void centerMap() {
         LatLng userPos = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-        CameraPosition center = new CameraPosition.Builder().zoom(10).target(userPos).build();
+        CameraPosition center = new CameraPosition.Builder().zoom(12).target(userPos).build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(center);
         map.moveCamera(update);
     }
