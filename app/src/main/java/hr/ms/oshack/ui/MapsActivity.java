@@ -2,9 +2,6 @@ package hr.ms.oshack.ui;
 
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,23 +21,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import hr.ms.oshack.R;
 
-public class MapsActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupLayout();
         setupGoogleServices();
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_maps;
+    }
+
+    @Override
+    protected int getMenuResId() {
+        return 0;
     }
 
     @Override
@@ -59,12 +61,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onResume() {
         super.onResume();
         setUpMap();
-    }
-
-    private void setupLayout() {
-        setContentView(R.layout.activity_maps);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
     }
 
     private void setUpMap() {
@@ -132,12 +128,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override

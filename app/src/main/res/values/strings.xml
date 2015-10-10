@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name_hack">mOSkito</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="action_settings">Postavke</string>
+    <string name="action_events">Događaji</string>
+    <string name="action_tutorials">Upute</string>
+    <string name="action_map">Karta</string>
 </resources>

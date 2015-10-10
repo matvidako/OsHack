@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/action_map"
+            android:title="@string/action_map" />
+        <item
+            android:id="@+id/action_events"
+            android:title="@string/action_events" />
+        <item
+            android:id="@+id/action_tutorials"
+            android:title="@string/action_tutorials" />
+        <item
+            android:id="@+id/action_settings"
+            android:title="@string/action_settings" />
+    </group>
+</menu>
