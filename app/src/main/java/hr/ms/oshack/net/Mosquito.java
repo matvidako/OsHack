@@ -19,7 +19,8 @@ public class Mosquito {
 
     private Mosquito() {
         RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint("")
+                .setEndpoint("http://moskito-app.herokuapp.com/api")
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
         mosquitoService = adapter.create(MosquitoService.class);
     }

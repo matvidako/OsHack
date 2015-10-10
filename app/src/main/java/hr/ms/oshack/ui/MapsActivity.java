@@ -2,6 +2,7 @@ package hr.ms.oshack.ui;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -21,7 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import butterknife.OnClick;
 import hr.ms.oshack.R;
+import hr.ms.oshack.model.Bite;
+import hr.ms.oshack.net.Mosquito;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -79,6 +86,21 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+    }
+
+    @OnClick(R.id.fabBite)
+    public void reportBite() {
+        Mosquito.getInstance().reportBite(Bite.fromLocation(lastLocation), new Callback<Response>() {
+            @Override
+            public void success(Response response, Response response2) {
+                Log.d("DISI", ""+response);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.d("DISI", ""+error);
+            }
+        });
     }
 
     private void addHeatMap() {

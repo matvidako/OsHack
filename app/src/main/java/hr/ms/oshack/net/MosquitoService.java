@@ -8,7 +8,7 @@ import retrofit.http.POST;
 
 public interface MosquitoService {
 
-    @POST("/bite")
+    @POST("/bites")
     void reportBite(@Body Bite bite, Callback<Response> callback);
 
 }
