@@ -25,9 +25,9 @@ import hr.ms.oshack.R;
 
 public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private GoogleMap mMap;
-    private Location mLastLocation;
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleMap map;
+    private Location lastLocation;
+    private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +48,13 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+        googleApiClient.disconnect();
     }
 
     @Override
@@ -64,13 +64,17 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     }
 
     private void setUpMap() {
-        if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        if (map != null) {
+            return;
         }
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        map = supportMapFragment.getMap();
+        map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        map.setMyLocationEnabled(true);
     }
 
     private void setupGoogleServices() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -81,8 +85,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         List<LatLng> list = new ArrayList<>();
         Random random = new Random();
 
-        double latitude = mLastLocation.getLatitude();
-        double longitude = mLastLocation.getLongitude();
+        double latitude = lastLocation.getLatitude();
+        double longitude = lastLocation.getLongitude();
         double limit = 10;
 
         for (int i = 0; i < 50; i++) {
@@ -98,14 +102,14 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                 .data(list)
                         //.gradient(gradient)
                 .build();
-        TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        TileOverlay mOverlay = map.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
     }
 
     private void centerMap() {
-        LatLng userPos = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        LatLng userPos = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
         CameraPosition center = new CameraPosition.Builder().zoom(10).target(userPos).build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(center);
-        mMap.moveCamera(update);
+        map.moveCamera(update);
     }
 
     private void onLocationReady() {
@@ -115,8 +119,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     @Override
     public void onConnected(Bundle bundle) {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation == null) {
+        lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        if (lastLocation == null) {
             return;
         }
         onLocationReady();
