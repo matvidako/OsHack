@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="onboarding_messages">
+        <item>Prijavi lokaciju aktivnosti komaraca.</item>
+        <item>Prati mjesta s najviše komaraca u gradu i zaštiti se na vrijeme.</item>
+        <item>Postavi zamke i pomozi Osijeku u borbi protiv komaraca.</item>
+    </string-array>
+</resources>

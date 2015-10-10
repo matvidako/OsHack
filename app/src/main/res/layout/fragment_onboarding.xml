@@ -1,11 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/padding_onboarding_image">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            tools:src="@drawable/onboarding1" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="257dp"
+            android:layout_gravity="bottom|center"
+            android:background="@color/green_light"
+            android:gravity="center"
+            android:paddingLeft="@dimen/padding_onboarding_side"
+            android:paddingRight="@dimen/padding_onboarding_side"
+            android:paddingBottom="40dp"
+            android:textAppearance="@style/TextAppearanceOnboarding"
+            tools:text="DAJDAJWC WACJ DWJACO JDCW da dawdaw daw da dawd wa wda dwa" />
+    </FrameLayout>
+
+
+    <ImageView
+        android:id="@+id/fake_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DAJDAJWC WACJ DWJACO JDCW" />
-</LinearLayout>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="278dp"
+        tools:src="@drawable/komarac_fab" />
+
+</FrameLayout>

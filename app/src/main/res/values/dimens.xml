@@ -3,4 +3,6 @@
     <dimen name="padding_standard">16dp</dimen>
     <dimen name="padding_large">24dp</dimen>
     <dimen name="padding_double">32dp</dimen>
+    <dimen name="padding_onboarding_image">40dp</dimen>
+    <dimen name="padding_onboarding_side">72dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package hr.ms.oshack.ui;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +28,8 @@ import hr.ms.oshack.R;
 import hr.ms.oshack.model.Bite;
 import hr.ms.oshack.model.Bites;
 import hr.ms.oshack.net.Mosquito;
+import hr.ms.oshack.storage.PrefsManager;
+import hr.ms.oshack.ui.onboarding.OnboardingActivity;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -40,7 +43,15 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startOnboardingIfNotSeen();
         setupGoogleServices();
+    }
+
+    private void startOnboardingIfNotSeen() {
+        if(!PrefsManager.didSeeOnboarding(this)) {
+            finish();
+            startActivity(new Intent(this, OnboardingActivity.class));
+        }
     }
 
     private void loadData() {
