@@ -1,6 +1,7 @@
 package hr.ms.oshack.net;
 
 import hr.ms.oshack.model.Bite;
+import hr.ms.oshack.model.Bites;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.client.Response;
@@ -27,6 +28,10 @@ public class Mosquito {
 
     public void reportBite(Bite bite, Callback<Response> callback) {
         mosquitoService.reportBite(bite, callback);
+    }
+
+    public void getBites(Callback<Bites> callback) {
+        mosquitoService.getBites(100, callback);
     }
 
 }

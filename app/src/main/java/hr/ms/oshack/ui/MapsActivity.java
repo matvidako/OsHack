@@ -25,6 +25,7 @@ import java.util.Random;
 import butterknife.OnClick;
 import hr.ms.oshack.R;
 import hr.ms.oshack.model.Bite;
+import hr.ms.oshack.model.Bites;
 import hr.ms.oshack.net.Mosquito;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -40,6 +41,19 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupGoogleServices();
+        loadData();
+    }
+
+    private void loadData() {
+        Mosquito.getInstance().getBites(new Callback<Bites>() {
+            @Override
+            public void success(Bites bites, Response response) {
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
     }
 
     @Override
