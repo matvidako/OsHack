@@ -36,19 +36,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        setUpMapIfNeeded();
+        setupLayout();
         setupGoogleServices();
-    }
-
-    private void setupGoogleServices() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
     }
 
     @Override
@@ -66,42 +55,27 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
+        setUpMap();
     }
 
-    private void setUpMapIfNeeded() {
-        if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-            if (mMap != null) {
-                setUpMap();
-            }
-        }
+    private void setupLayout() {
+        setContentView(R.layout.activity_maps);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
     }
 
     private void setUpMap() {
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation == null) {
-            return;
+        if (mMap == null) {
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
         }
-
-        LatLng userPos = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-        CameraPosition center = new CameraPosition.Builder().zoom(10).target(userPos).build();
-        CameraUpdate update = CameraUpdateFactory.newCameraPosition(center);
-        mMap.moveCamera(update);
-        addHeatMap();
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    private void setupGoogleServices() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     private void addHeatMap() {
@@ -112,20 +86,49 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         double longitude = mLastLocation.getLongitude();
         double limit = 10;
 
-        for(int i = 0; i < 50; i++) {
-            list.add(new LatLng(latitude+random.nextDouble(), longitude+random.nextDouble()));
+        for (int i = 0; i < 50; i++) {
+            list.add(new LatLng(latitude + random.nextDouble(), longitude + random.nextDouble()));
         }
 
-        for(int i = 0; i < 500; i++) {
-            list.add(new LatLng(latitude+random.nextDouble()/limit, longitude+random.nextDouble()/limit));
+        for (int i = 0; i < 500; i++) {
+            list.add(new LatLng(latitude + random.nextDouble() / limit, longitude + random.nextDouble() / limit));
         }
 
         //Gradient gradient = new Gradient(new int[]{Color.rgb(0, 255, 0), Color.rgb(255, 0, 0)}, new float[]{0f, 1f});
         HeatmapTileProvider mProvider = new HeatmapTileProvider.Builder()
                 .data(list)
-                //.gradient(gradient)
+                        //.gradient(gradient)
                 .build();
         TileOverlay mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+    }
+
+    private void centerMap() {
+        LatLng userPos = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        CameraPosition center = new CameraPosition.Builder().zoom(10).target(userPos).build();
+        CameraUpdate update = CameraUpdateFactory.newCameraPosition(center);
+        mMap.moveCamera(update);
+    }
+
+    private void onLocationReady() {
+        centerMap();
+        addHeatMap();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation == null) {
+            return;
+        }
+        onLocationReady();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
     }
 
 }
