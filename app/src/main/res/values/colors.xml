@@ -6,6 +6,7 @@
 
     <color name="green_light">#50C1B3</color>
     <color name="green_dark">#224540</color>
-    <color name="red_light">#ED6B6B</color>
-    <color name="red_dark">#994545</color>
+    <color name="red_light">#EE538E</color>
+    <color name="red_dark">#92405F</color>
+    <color name="yellow">#FCC468</color>
 </resources>
