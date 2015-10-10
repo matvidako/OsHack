@@ -19,9 +19,12 @@
             android:name=".ui.onboarding.OnboardingActivity"
             android:label="@string/app_name_hack"></activity>
 
+        <activity android:name=".ui.WelcomeActivity" />
+
         <activity
             android:name=".ui.MapsActivity"
             android:label="@string/app_name_hack">
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

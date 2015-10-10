@@ -63,8 +63,6 @@ public class OnboardingActivity extends AppCompatActivity implements ViewPager.O
     public void startMainActivity() {
         finish();
         Intent i = new Intent(this, MapsActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(i);
     }
 

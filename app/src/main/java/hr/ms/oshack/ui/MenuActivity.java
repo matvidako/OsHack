@@ -49,7 +49,7 @@ public abstract class MenuActivity extends BaseActivity implements NavigationVie
             return true;
         }
         if (id == R.id.action_tutorials) {
-            startActivity(OnboardingActivity.class);
+            startActivity(WelcomeActivity.class);
             return true;
         }
         return super.onOptionsItemSelected(menuItem);
