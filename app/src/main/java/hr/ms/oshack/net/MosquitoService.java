@@ -25,7 +25,7 @@ public interface MosquitoService {
     void getBites(@Query("limit") int limit, Callback<Bites> callback);
 
     @GET("/clusters")
-    void getClusters(Callback<List<Cluster>> callback);
+    void getClusters(@Query("bias") float bias, Callback<List<Cluster>> callback);
 
     @GET("/traps")
     void getTraps(@Query("limit") int limit, Callback<Traps> callback);

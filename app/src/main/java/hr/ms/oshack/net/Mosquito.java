@@ -40,7 +40,7 @@ public class Mosquito {
     }
 
     public void getClusters(Callback<List<Cluster>> callback) {
-        mosquitoService.getClusters(callback);
+        mosquitoService.getClusters(1.5f, callback);
     }
 
     public void getTraps(Callback<Traps> callback) {
