@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -25,10 +26,8 @@ import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import butterknife.OnClick;
 import hr.ms.oshack.R;
@@ -49,7 +48,10 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     private Location lastLocation;
     private GoogleApiClient googleApiClient;
 
-    private Map<String, Trap> trapHashMap = new HashMap<>();
+    private Map<String, Trap> trapMarkerHashMap = new HashMap<>();
+    private List<Marker> trapMarkers = new ArrayList<>();
+    private List<Marker> clusterMarkers = new ArrayList<>();
+    private List<Circle> clusterCircles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,26 +80,43 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 //            }
 //        });
 
+        loadClusters();
+        loadTraps();
+    }
+
+    private void loadTraps() {
+        trapMarkerHashMap.clear();
+        Mosquito.getInstance().getTraps(new Callback<Traps>() {
+            @Override
+            public void success(final Traps traps, Response response) {
+                for (Marker trapMarker : trapMarkers) {
+                    trapMarker.remove();
+                }
+                addTraps(traps);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+    }
+
+    private void loadClusters() {
         Mosquito.getInstance().getClusters(new Callback<List<Cluster>>() {
             @Override
             public void success(List<Cluster> clusters, Response response) {
+                for (Marker clusterMarker : clusterMarkers) {
+                    clusterMarker.remove();
+                }
+                for (Circle clusterCircle : clusterCircles) {
+                    clusterCircle.remove();
+                }
                 addClusters(clusters);
             }
 
             @Override
             public void failure(RetrofitError error) {
 
-            }
-        });
-
-        Mosquito.getInstance().getTraps(new Callback<Traps>() {
-            @Override
-            public void success(final Traps traps, Response response) {
-                addTraps(traps);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
             }
         });
     }
@@ -155,7 +174,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             @Override
             public void success(Response response, Response response2) {
                 Log.d("DISI", "" + response);
-                refreshMap();
+                loadClusters();
             }
 
             @Override
@@ -171,7 +190,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             @Override
             public void success(Response response, Response response2) {
                 Log.d("DISI", "" + response);
-                refreshMap();
+                loadTraps();
             }
 
             @Override
@@ -179,12 +198,6 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                 Log.d("DISI", "" + error);
             }
         });
-    }
-
-    private void refreshMap() {
-        map.clear();
-        trapHashMap.clear();
-        loadData();
     }
 
     private void addHeatMap(Bites bites) {
@@ -213,7 +226,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                     .fillColor(getResources().getColor(R.color.red_region))
                     .zIndex(1);
 
-            map.addCircle(circleOptions);
+            Circle circle = map.addCircle(circleOptions);
+            clusterCircles.add(circle);
 
             addClusterMarker(cluster);
 
@@ -224,7 +238,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         for (Trap trap : traps.traps) {
             int iconId = trap.isActive() ? R.drawable.pin_zamka : R.drawable.pin_zamka_0;
             Marker marker = addCircleMarker(trap.latitude, trap.longitude, iconId);
-            trapHashMap.put(marker.getId(), trap);
+            trapMarkerHashMap.put(marker.getId(), trap);
+            trapMarkers.add(marker);
             if (trap.isActive()) {
                 marker.setTitle("Prijavi neispravnu zamku");
             }
@@ -235,7 +250,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     }
 
     private void addClusterMarker(Cluster cluster) {
-        addCircleMarker(cluster.latitude, cluster.longitude, R.drawable.pin_ubod);
+        Marker marker = addCircleMarker(cluster.latitude, cluster.longitude, R.drawable.pin_ubod);
+        clusterMarkers.add(marker);
     }
 
     private Marker addCircleMarker(double latitude, double longitude, int iconId) {
@@ -285,13 +301,14 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     }
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
-        Trap trap = trapHashMap.get(marker.getId());
+    public void onInfoWindowClick(final Marker marker) {
+        marker.hideInfoWindow();
+        Trap trap = trapMarkerHashMap.get(marker.getId());
         Mosquito.getInstance().toggleTrapState(trap,  new Callback<Response>() {
 
             @Override
             public void success(Response response, Response response2) {
-                refreshMap();
+                loadTraps();
             }
 
             @Override
