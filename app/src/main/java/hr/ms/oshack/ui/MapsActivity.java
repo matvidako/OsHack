@@ -334,6 +334,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         if(shouldAddTrapOnStart) {
             addTrap();
             shouldAddTrapOnStart = false;
+            getIntent().putExtra(EXTRA_ADD_TRAP_ON_START, false);
         } else {
             loadData();
         }
