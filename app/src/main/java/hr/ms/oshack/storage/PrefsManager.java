@@ -17,7 +17,7 @@ public class PrefsManager {
     }
 
     public static boolean didSeeTrapTutorial(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_TRAP_TUTORIAL_SEEN, false);
+        return false;//PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_TRAP_TUTORIAL_SEEN, false);
     }
 
     public static void onTrapTutorialSeen(Context context) {
