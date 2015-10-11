@@ -46,7 +46,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener {
+public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMyLocationChangeListener {
 
     public static String EXTRA_ADD_TRAP_ON_START = "ExtraAddTrap";
 
@@ -59,6 +59,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     private List<Marker> trapMarkers = new ArrayList<>();
     private List<Marker> clusterMarkers = new ArrayList<>();
     private List<Circle> clusterCircles = new ArrayList<>();
+    private Marker postionMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +174,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
                 return true;
             }
         });
+        map.setOnMyLocationChangeListener(this);
     }
 
     private void setupGoogleServices() {
@@ -247,11 +249,6 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             }
         });
         builder.show();
-    }
-
-    private void refreshMap() {
-        map.clear();
-        loadData();
     }
 
     private void addHeatMap(Bites bites) {
@@ -329,8 +326,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             addTrap();
             shouldAddTrapOnStart = false;
         } else {
-        loadData();
-    }
+            loadData();
+        }
     }
 
     @Override
@@ -367,7 +364,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             return;
         }
         marker.hideInfoWindow();
-        Mosquito.getInstance().toggleTrapState(trap,  new Callback<Response>() {
+        Mosquito.getInstance().toggleTrapState(trap, new Callback<Response>() {
 
             @Override
             public void success(Response response, Response response2) {
@@ -379,5 +376,19 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
             }
         });
+    }
+
+    @Override
+    public void onMyLocationChange(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        Marker oldPostionMarker = postionMarker;
+
+        postionMarker = map.addMarker(new MarkerOptions()
+                .position(latLng)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_my_location)));
+
+        if (oldPostionMarker != null) {
+            oldPostionMarker.remove();
+        }
     }
 }
