@@ -12,6 +12,8 @@ import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 public interface MosquitoService {
@@ -30,4 +32,7 @@ public interface MosquitoService {
 
     @POST("/traps")
     void addTrap(@Body Trap trap, Callback<Response> callback);
+
+    @PUT("/traps/{trapId}")
+    void updateTrap(@Path("trapId") String trapId, @Body Trap trap, Callback<Response> callback);
 }

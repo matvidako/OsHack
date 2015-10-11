@@ -17,13 +17,18 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.OnClick;
 import hr.ms.oshack.R;
@@ -38,11 +43,13 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap map;
     private Location lastLocation;
     private GoogleApiClient googleApiClient;
+
+    private Map<String, Trap> trapHashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +138,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         map = supportMapFragment.getMap();
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         map.setMyLocationEnabled(true);
+        map.setOnInfoWindowClickListener(this);
     }
 
     private void setupGoogleServices() {
@@ -175,6 +183,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     private void refreshMap() {
         map.clear();
+        trapHashMap.clear();
         loadData();
     }
 
@@ -213,7 +222,14 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     private void addTraps(Traps traps) {
         for (Trap trap : traps.traps) {
-            addCircleMarker(trap.latitude, trap.longitude, R.drawable.pin_zamka);
+            Marker marker = addCircleMarker(trap.latitude, trap.longitude, R.drawable.pin_zamka);
+            trapHashMap.put(marker.getId(), trap);
+            if (trap.isActive()) {
+                marker.setTitle("Prijavi neispravnu zamku");
+            }
+            else {
+                marker.setTitle("Prijavi popravljenu zamku");
+            }
         }
     }
 
@@ -221,8 +237,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         addCircleMarker(cluster.latitude, cluster.longitude, R.drawable.pin_ubod);
     }
 
-    private void addCircleMarker(double latitude, double longitude, int iconId) {
-        map.addMarker(new MarkerOptions()
+    private Marker addCircleMarker(double latitude, double longitude, int iconId) {
+        return map.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
                 .icon(BitmapDescriptorFactory.fromResource(iconId))
                 .anchor(0.5f, 0.5f));
@@ -267,4 +283,20 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Trap trap = trapHashMap.get(marker.getId());
+        Mosquito.getInstance().toggleTrapState(trap,  new Callback<Response>() {
+
+            @Override
+            public void success(Response response, Response response2) {
+                refreshMap();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
 }

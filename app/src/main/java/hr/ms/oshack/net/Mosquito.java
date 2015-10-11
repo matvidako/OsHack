@@ -51,4 +51,17 @@ public class Mosquito {
         mosquitoService.addTrap(trap, callback);
     }
 
+    public void toggleTrapState(Trap trap, Callback<Response> callback) {
+        String newState;
+        if (trap.isActive()) {
+            newState = Trap.INACTIVE;
+        }
+        else {
+            newState = Trap.ACTIVE;
+        }
+        Trap newTrap = new Trap(trap.id, trap.latitude, trap.longitude, trap.creatorId, newState);
+
+        mosquitoService.updateTrap(newTrap.id, newTrap, callback);
+    }
+
 }
