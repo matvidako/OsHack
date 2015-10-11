@@ -25,4 +25,5 @@
     <string name="trap_tutorial_dialog_message">Trebaš li upute za izradu i postavljenje zamke?</string>
     <string name="trap_tutorial_dialog_positive">Pokaži</string>
     <string name="trap_tutorial_dialog_negative">Ne trebam</string>
+    <string name="bite_registered">Ugriz registriran</string>
 </resources>

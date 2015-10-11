@@ -178,6 +178,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     @OnClick(R.id.fabBite)
     public void reportBite() {
+        Toast.makeText(MapsActivity.this, getString(R.string.bite_registered), Toast.LENGTH_SHORT).show();
         Mosquito.getInstance().reportBite(Bite.fromLocation(lastLocation), new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
