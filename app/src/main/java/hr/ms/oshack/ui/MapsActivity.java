@@ -222,7 +222,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     private void addTraps(Traps traps) {
         for (Trap trap : traps.traps) {
-            Marker marker = addCircleMarker(trap.latitude, trap.longitude, R.drawable.pin_zamka);
+            int iconId = trap.isActive() ? R.drawable.pin_zamka : R.drawable.pin_zamka_0;
+            Marker marker = addCircleMarker(trap.latitude, trap.longitude, iconId);
             trapHashMap.put(marker.getId(), trap);
             if (trap.isActive()) {
                 marker.setTitle("Prijavi neispravnu zamku");
