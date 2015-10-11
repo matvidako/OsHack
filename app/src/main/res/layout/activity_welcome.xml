@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="60dp"
-    android:paddingBottom="60dp"
+    android:paddingBottom="30dp"
     android:background="@color/white">
 
     <ImageView
