@@ -46,7 +46,10 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMyLocationChangeListener {
+public class MapsActivity extends MenuActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener,
+        GoogleMap.OnMyLocationChangeListener, GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMarkerDragListener {
 
     public static String EXTRA_ADD_TRAP_ON_START = "ExtraAddTrap";
 
@@ -60,6 +63,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     private List<Marker> clusterMarkers = new ArrayList<>();
     private List<Circle> clusterCircles = new ArrayList<>();
     private Marker postionMarker;
+
+    boolean resetLocationPin = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +180,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             }
         });
         map.setOnMyLocationChangeListener(this);
+        map.setOnMyLocationButtonClickListener(this);
+        map.setOnMarkerDragListener(this);
     }
 
     private void setupGoogleServices() {
@@ -188,7 +195,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     @OnClick(R.id.fabBite)
     public void reportBite() {
         Toast.makeText(MapsActivity.this, getString(R.string.bite_registered), Toast.LENGTH_SHORT).show();
-        Mosquito.getInstance().reportBite(Bite.fromLocation(lastLocation), new Callback<Response>() {
+        Bite bite = postionMarker == null ? Bite.fromLocation(lastLocation) : Bite.fromLatLng(postionMarker.getPosition());
+        Mosquito.getInstance().reportBite(bite, new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 Log.d("DISI", "" + response);
@@ -213,7 +221,8 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     private void addTrap() {
         Toast.makeText(this, getString(R.string.trap_success), Toast.LENGTH_SHORT).show();
-        Mosquito.getInstance().addTrap(Trap.fromLocation(lastLocation), new Callback<Response>() {
+        Trap trap = postionMarker == null ? Trap.fromLocation(lastLocation) : Trap.fromLatLng(postionMarker.getPosition());
+        Mosquito.getInstance().addTrap(trap, new Callback<Response>() {
             @Override
             public void success(Response response, Response response2) {
                 Log.d("DISI", "" + response);
@@ -380,15 +389,42 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     @Override
     public void onMyLocationChange(Location location) {
+        if (!resetLocationPin) {
+            return;
+        }
+
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         Marker oldPostionMarker = postionMarker;
 
         postionMarker = map.addMarker(new MarkerOptions()
                 .position(latLng)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_my_location)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_my_location))
+                .draggable(true));
 
         if (oldPostionMarker != null) {
             oldPostionMarker.remove();
         }
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        resetLocationPin = true;
+        onMyLocationChange(lastLocation);
+        return true;
+    }
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+        resetLocationPin = false;
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+
     }
 }

@@ -2,6 +2,7 @@ package hr.ms.oshack.model;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
 public class Trap {
@@ -30,6 +31,10 @@ public class Trap {
 
     public static Trap fromLocation(Location location) {
         return new Trap("", location.getLatitude(), location.getLongitude(), "android", "active");
+    }
+
+    public static Trap fromLatLng(LatLng latLng) {
+        return new Trap("", latLng.latitude, latLng.longitude, "android", "active");
     }
 
     public boolean isActive() {

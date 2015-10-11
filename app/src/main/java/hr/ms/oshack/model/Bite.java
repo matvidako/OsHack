@@ -2,6 +2,7 @@ package hr.ms.oshack.model;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
 public class Bite {
@@ -21,6 +22,10 @@ public class Bite {
 
     public static Bite fromLocation(Location location) {
         return new Bite(location.getLatitude(), location.getLongitude(), "android");
+    }
+
+    public static Bite fromLatLng(LatLng latLng) {
+        return new Bite(latLng.latitude, latLng.longitude, "android");
     }
 
 }
