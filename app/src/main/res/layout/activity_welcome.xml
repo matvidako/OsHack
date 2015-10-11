@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="60dp"
+    android:background="@color/white"
     android:paddingBottom="30dp"
-    android:background="@color/white">
+    android:paddingTop="90dp">
 
     <ImageView
         android:id="@+id/image"
@@ -16,12 +17,12 @@
     <Button
         android:id="@+id/start_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_double"
-        android:layout_marginRight="@dimen/padding_double"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/red_light"
+        android:layout_marginLeft="@dimen/padding_double"
+        android:layout_marginRight="@dimen/padding_double"
         android:text="@string/learn_more"
-        android:textColor="@color/white" />
+        android:backgroundTint="@color/red_light"
+        android:textColor="@color/white"/>
 </RelativeLayout>
