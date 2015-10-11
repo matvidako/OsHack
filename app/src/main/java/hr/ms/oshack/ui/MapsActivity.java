@@ -166,6 +166,13 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         map.setMyLocationEnabled(true);
         map.setOnInfoWindowClickListener(this);
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                marker.showInfoWindow();
+                return true;
+            }
+        });
     }
 
     private void setupGoogleServices() {
