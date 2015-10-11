@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -16,6 +15,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hr.ms.oshack.R;
+import hr.ms.oshack.ui.MapsActivity;
 
 public class TutorialActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
@@ -88,7 +88,9 @@ public class TutorialActivity extends AppCompatActivity implements ViewPager.OnP
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         finish();
-        Toast.makeText(TutorialActivity.this, getString(R.string.trap_success), Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, MapsActivity.class);
+        i.putExtra(MapsActivity.EXTRA_ADD_TRAP_ON_START, true);
+        startActivity(i);
     }
 }
 

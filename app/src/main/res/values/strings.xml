@@ -21,4 +21,8 @@
     <string name="trap_photo">Fotografiraj zamku</string>
     <string name="cancel">Odustani</string>
     <string name="trap_success">Zamka postavljena. Hvala!</string>
+    <string name="trap_tutorial_dialog_title">Upute za izradu zamke</string>
+    <string name="trap_tutorial_dialog_message">Trebaš li upute za izradu i postavljenje zamke?</string>
+    <string name="trap_tutorial_dialog_positive">Pokaži</string>
+    <string name="trap_tutorial_dialog_negative">Ne trebam</string>
 </resources>
