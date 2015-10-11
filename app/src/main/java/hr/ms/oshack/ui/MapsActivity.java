@@ -292,10 +292,10 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
             trapMarkerHashMap.put(marker.getId(), trap);
             trapMarkers.add(marker);
             if (trap.isActive()) {
-                marker.setTitle("Prijavi neispravnu zamku");
+                marker.setTitle(getString(R.string.report_broken_trap));
             }
             else {
-                marker.setTitle("Prijavi popravljenu zamku");
+                marker.setTitle(getString(R.string.report_fixed_trap));
             }
         }
     }

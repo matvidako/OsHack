@@ -26,4 +26,6 @@
     <string name="trap_tutorial_dialog_positive">Pokaži</string>
     <string name="trap_tutorial_dialog_negative">Ne trebam</string>
     <string name="bite_registered">Ugriz registriran</string>
+    <string name="report_broken_trap">Prijavi neispravnu zamku</string>
+    <string name="report_fixed_trap">Prijavi popravljenu zamku</string>
 </resources>
