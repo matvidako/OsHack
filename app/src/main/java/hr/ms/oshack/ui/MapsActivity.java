@@ -49,6 +49,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
         super.onCreate(savedInstanceState);
         startOnboardingIfNotSeen();
         setupGoogleServices();
+        setTitle(R.string.action_map);
     }
 
     private void startOnboardingIfNotSeen() {

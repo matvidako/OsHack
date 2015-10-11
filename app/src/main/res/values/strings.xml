@@ -9,4 +9,16 @@
     <string name="learn_more">Saznaj više</string>
     <string name="action_stats">Statistike</string>
     <string name="action_toc">Uvjeti korištenja</string>
+
+    <string name="secer">Šećer</string>
+    <string name="kvasac">Kvasac</string>
+    <string name="voda">Voda</string>
+    <string name="plasticna_boca">Plastična boca</string>
+    <string name="skare">Škare</string>
+    <string name="ingredients">Za pripremanje zamke, pripremite nekoliko stvari</string>
+    <string name="trap_done">Vaša zamka je gotova. Fotografirajte postavljenu zamku za završetak.</string>
+    <string name="congrats">Čestitamo!</string>
+    <string name="trap_photo">Fotografiraj zamku</string>
+    <string name="cancel">Odustani</string>
+    <string name="trap_success">Zamka postavljena. Hvala!</string>
 </resources>

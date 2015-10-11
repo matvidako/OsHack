@@ -9,7 +9,7 @@ import android.view.View;
 
 import butterknife.Bind;
 import hr.ms.oshack.R;
-import hr.ms.oshack.ui.onboarding.OnboardingActivity;
+import hr.ms.oshack.ui.tutorial.TutorialActivity;
 
 public abstract class MenuActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -49,6 +49,10 @@ public abstract class MenuActivity extends BaseActivity implements NavigationVie
             return true;
         }
         if (id == R.id.action_tutorials) {
+            startActivity(TutorialActivity.class);
+            return true;
+        }
+        if(id == R.id.action_toc) {
             startActivity(WelcomeActivity.class);
             return true;
         }

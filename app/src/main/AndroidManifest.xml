@@ -21,9 +21,10 @@
 
         <activity android:name=".ui.WelcomeActivity" />
 
+        <activity android:name=".ui.tutorial.TutorialActivity" />
+
         <activity
-            android:name=".ui.MapsActivity"
-            android:label="@string/action_map">
+            android:name=".ui.MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

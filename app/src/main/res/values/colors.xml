@@ -4,7 +4,7 @@
     <color name="primaryDark">#40A89B</color>
     <color name="accent">@color/red_light</color>
 
-    <color name="green_light">#50C1B3</color>
+    <color name="green_light">#50D2C2</color>
     <color name="green_dark">#224540</color>
     <color name="red_light">#EE538E</color>
     <color name="red_dark">#92405F</color>

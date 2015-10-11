@@ -5,4 +5,12 @@
         <item>Prati mjesta s najviše komaraca u gradu i zaštiti se na vrijeme.</item>
         <item>Postavi zamke i pomozi Osijeku u borbi protiv komaraca.</item>
     </string-array>
+
+    <string-array name="tutorial_messages">
+        <item>Prerežite gornji dio boce i sačuvajte ga</item>
+        <item>Bocu napunite s otopinom šećera i vode</item>
+        <item>Dodajte kvasac u otopinu šećera i vode</item>
+        <item>Okrenite gornji dio boce i pričvrstite ga natrag u bocu, zatim omotajte bocu s krpom</item>
+    </string-array>
+
 </resources>
