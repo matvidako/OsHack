@@ -10,9 +10,9 @@ public class Cluster {
     @SerializedName("radius")
     public final double radius;
     @SerializedName("number")
-    public final double number;
+    public final int number;
 
-    public Cluster(double latitude, double longitude, double radius, double number) {
+    public Cluster(double latitude, double longitude, double radius, int number) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;

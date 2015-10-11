@@ -298,6 +298,7 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
     private void addClusterMarker(Cluster cluster) {
         Marker marker = addCircleMarker(cluster.latitude, cluster.longitude, R.drawable.pin_ubod);
         clusterMarkers.add(marker);
+        marker.setTitle(Integer.toString(cluster.number));
     }
 
     private Marker addCircleMarker(double latitude, double longitude, int iconId) {
@@ -353,8 +354,11 @@ public class MapsActivity extends MenuActivity implements GoogleApiClient.Connec
 
     @Override
     public void onInfoWindowClick(final Marker marker) {
-        marker.hideInfoWindow();
         Trap trap = trapMarkerHashMap.get(marker.getId());
+        if (trap == null) {
+            return;
+        }
+        marker.hideInfoWindow();
         Mosquito.getInstance().toggleTrapState(trap,  new Callback<Response>() {
 
             @Override
