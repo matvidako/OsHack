@@ -89,7 +89,9 @@ public class TutorialActivity extends AppCompatActivity implements ViewPager.OnP
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         finish();
         Intent i = new Intent(this, MapsActivity.class);
-        i.putExtra(MapsActivity.EXTRA_ADD_TRAP_ON_START, true);
+        if(resultCode == RESULT_OK) {
+            i.putExtra(MapsActivity.EXTRA_ADD_TRAP_ON_START, true);
+        }
         startActivity(i);
     }
 }
